@@ -1,7 +1,11 @@
-require "muzang-plugins/version"
+require 'muzang-plugins/version'
+require 'muzang-plugins/helpers'
 
-module Muzang
-  module Plugins
-    # Your code goes here...
-  end
-end
+autoload :Eval,         'muzang-plugins/muzang-eval'
+autoload :LiveReload,   'muzang-plugins/muzang-livereload'
+autoload :Meme,         'muzang-plugins/muzang-meme'
+autoload :Motd,         'muzang-plugins/muzang-motd'
+autoload :NerdPursuit,  'muzang-plugins/muzang-nerdpursuit'
+autoload :PlusOne,      'muzang-plugins/muzang-plusone'
+autoload :Reddit,       'muzang-plugins/muzang-reddit'
+autoload :RubyGems,     'muzang-plugins/muzang-rubygems'

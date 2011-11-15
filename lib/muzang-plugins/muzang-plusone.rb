@@ -2,7 +2,7 @@ require 'fileutils'
 require 'yaml'
 
 class PlusOne
-  include Muzang::Plugin::Helpers
+  include Muzang::Plugins::Helpers
 
   attr_accessor :config, :stats
 

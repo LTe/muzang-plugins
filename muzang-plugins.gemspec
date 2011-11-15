@@ -4,8 +4,8 @@ require File.expand_path('../lib/muzang-plugins/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Piotr Niełacny"]
   gem.email         = ["piotr.nielacny@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Plugins for Muzang IRC bot}
+  gem.summary       = %q{Basic plugins for Muzang IRC bot}
   gem.homepage      = ""
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
@@ -14,4 +14,10 @@ Gem::Specification.new do |gem|
   gem.name          = "muzang-plugins"
   gem.require_paths = ["lib"]
   gem.version       = Muzang::Plugins::VERSION
+
+  gem.add_dependency "em-http-request"
+  gem.add_dependency "muzang", "~> 1.0.0"
+
+  gem.add_development_dependency "em-ventually",  "~> 0.1.2"
+  gem.add_development_dependency "rspec",         "~> 2.6.0"
 end

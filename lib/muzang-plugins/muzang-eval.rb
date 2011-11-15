@@ -26,7 +26,7 @@ def safe(*args, &block)
 end
 
 class Eval
-  include Muzang::Plugin::Helpers
+  include Muzang::Plugins::Helpers
 
   def initialize(bot)
     @bot = bot

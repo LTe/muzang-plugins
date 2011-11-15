@@ -1,7 +1,7 @@
 require "json"
 
 class NerdPursuit
-  include Muzang::Plugin::Helpers
+  include Muzang::Plugins::Helpers
 
   attr_accessor :questions, :quiz_time
 

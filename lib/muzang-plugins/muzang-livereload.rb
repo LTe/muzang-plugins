@@ -1,5 +1,5 @@
 class LiveReload
-  include Muzang::Plugin::Helpers
+  include Muzang::Plugins::Helpers
 
   def initialize(bot)
     @bot = bot
@@ -9,7 +9,7 @@ class LiveReload
     if on_channel?(message)
       if match?(message, :regexp => /^!reload$/, :position => 0)
         @bot.plugins.each do |plugin, instance|
-          Kernel.load("muzang-#{plugin.to_s.downcase}.rb")
+          Kernel.load("muzang-plugins/muzang-#{plugin.to_s.downcase}.rb")
           instance = plugin.new(@bot)
           connection.msg(message.channel, "Reloading: #{plugin}")
         end

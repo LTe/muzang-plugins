@@ -3,7 +3,7 @@ require "rss/1.0"
 require "rss/2.0"
 
 class Reddit
-  include Muzang::Plugin::Helpers
+  include Muzang::Plugins::Helpers
   attr_accessor :last_update
 
   def initialize(bot)

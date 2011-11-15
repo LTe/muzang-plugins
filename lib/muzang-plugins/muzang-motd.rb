@@ -1,5 +1,7 @@
+require 'muzang/version'
+
 class Motd
-  include Muzang::Plugin::Helpers
+  include Muzang::Plugins::Helpers
 
   def initialize(bot)
     @bot = bot

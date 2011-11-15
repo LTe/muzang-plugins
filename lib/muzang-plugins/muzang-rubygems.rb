@@ -2,7 +2,7 @@ require "em-http-request"
 require "json"
 
 class RubyGems
-  include Muzang::Plugin::Helpers
+  include Muzang::Plugins::Helpers
 
   attr_accessor :last_gem
 
