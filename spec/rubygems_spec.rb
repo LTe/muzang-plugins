@@ -56,6 +56,18 @@ describe "RubyGems" do
     end
   end
 
+  it "should remove gem from storage" do
+    @message.message = "watch! acts-as-messageable2"
+    EM.run do
+      @rubygems.call(@connection, @message)
+      eventually(true) do
+        @rubygems.store.transaction do
+          @rubygems.store[:gems]["acts-as-messageable2"] == nil
+        end
+      end
+    end
+  end
+
   it "should notice about new version of gem" do
     @message.message = ""
     @message.command = :join
