@@ -53,12 +53,15 @@ class RubyGems
           http = EventMachine::HttpRequest.new("http://rubygems.org/api/v1/gems/#{gem[:name]}.json").get
           http.callback {
             iter.next
-            current_gem = JSON.parse(http.response)
-            if Gem::Version.new(gem[:version]) < Gem::Version.new(current_gem["version"])
-              @store.transaction do
-                @store[:gems][gem[:name]][:version] = current_gem["version"]
+            begin
+              current_gem = JSON.parse(http.response)
+              if Gem::Version.new(gem[:version]) < Gem::Version.new(current_gem["version"])
+                @store.transaction do
+                  @store[:gems][gem[:name]][:version] = current_gem["version"]
+                end
+                connection.msg(message.channel, "Nowa wersja #{gem[:name]} (#{current_gem["version"]})")
               end
-              connection.msg(message.channel, "Nowa wersja #{gem[:name]} (#{current_gem["version"]})")
+            rescue
             end
           }
         end
