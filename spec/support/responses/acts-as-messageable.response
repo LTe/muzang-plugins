@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Status: 200
+Content-Type: application/json; charset=utf-8
+
+{"dependencies":{"runtime":[{"name":"activerecord","requirements":">= 3.0.0"},{"name":"activesupport","requirements":">= 3.0.0"},{"name":"ancestry","requirements":"~> 1.2.4"},{"name":"railties","requirements":">= 3.0.0"}],"development":[{"name":"jeweler","requirements":"~> 1.6.0"},{"name":"rspec","requirements":"~> 2.6.0"},{"name":"sqlite3-ruby","requirements":">= 0"}]},"name":"acts-as-messageable","downloads":3397,"info":"Make user messageable!;-)","version_downloads":14,"version":"0.4.2","homepage_uri":"http://github.com/LTe/acts-as-messageable","bug_tracker_uri":"https://github.com/LTe/acts-as-messageable/issues","source_code_uri":"","gem_uri":"http://rubygems.org/gems/acts-as-messageable-0.4.2.gem","project_uri":"http://rubygems.org/gems/acts-as-messageable","authors":"Piotr Nielacny","mailing_list_uri":"","documentation_uri":"http://rdoc.info/github/LTe/acts-as-messageable/","wiki_uri":"https://github.com/LTe/acts-as-messageable/wiki/_pages"}

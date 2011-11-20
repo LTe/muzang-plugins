@@ -1,0 +1,5 @@
+HTTP/1.1 404 Not Found
+Status: 404
+Content-Type: application/json; charset=utf-8
+
+This rubygem could not be found.
