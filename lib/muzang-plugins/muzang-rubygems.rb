@@ -39,7 +39,7 @@ class RubyGems
             @new_gem = false
           rescue Exception
             connection.msg(message.channel, "Niepoprawna nazwa gema")
-            @store.transaction{@store[:gems].delete(@current_gem}
+            @store.transaction{@store[:gems].delete(@current_gem)}
           end
         }
       else
