@@ -62,8 +62,8 @@ class NerdPursuit
   end
 
   def call(connection, message)
-    if on_channel?(message)
-      if match?(message, :regexp => /^!quiz$/, :position => 0)
+    on_channel(message) do
+      match(message, /^!quiz$/) do
         quiz!
         connection.msg(message.channel, "Quiz time!")
         EM.add_timer(period(1)) { connection.msg(message.channel, "Category: #{current_question["category"]}") }
@@ -83,7 +83,8 @@ class NerdPursuit
         end
       end
 
-      if(answer = match?(message, :regexp => /\d/, :position => 0))
+      match(message, /\d/) do |match|
+        answer = match[0]
         if @quiz_time
           unless @answers[message.nick]
             @answers[message.nick] = { :answer => answer, :time => Time.now }

@@ -33,10 +33,10 @@ class Eval
   end
 
   def call(connection, message)
-    if on_channel?(message)
-      if match?(message, :regexp => /^\% (.*)/, :position => 1)
+    on_channel(message) do
+      match(message, /^\% (.*)/) do |match|
         operation = proc do
-          safe(message.message.match(/^\% (.*)/)[1])
+          safe(match[1])
         end
         callback = proc do |tuple|
           result, error = tuple

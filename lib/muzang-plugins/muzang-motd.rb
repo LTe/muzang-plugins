@@ -8,8 +8,8 @@ class Motd
   end
 
   def call(connection, message)
-    if on_join?(connection, message)
-      connection.msg(message.channel, "DRUG-bot | Version: #{Muzang::VERSION} | Plugins: #{plugins}")
+    on_join(connection, message) do
+      connection.msg(message.channel, "Muzang | Version: #{Muzang::VERSION} | Plugins: #{plugins}")
     end
   end
 

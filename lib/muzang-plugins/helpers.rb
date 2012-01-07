@@ -1,19 +1,20 @@
 module Muzang
   module Plugins
     module Helpers
-      DEFAULT_MATCH_OPTIONS = { position: 1 }
-
-      def on_channel?(message)
-        message.channel
+      def on_channel(message)
+        yield message.channel if message.channel
       end
 
-      def match?(message, options = {})
-        options = DEFAULT_MATCH_OPTIONS.merge(options)
-        message.message.match(options[:regexp]) ? message.message.match(options[:regexp])[options[:position]] : false
+      def match(message, regexp)
+        message.message.match(regexp) do |match|
+          yield match
+        end
       end
 
-      def on_join?(connection, message)
-        message.command == :join && message.nick == connection.nick
+      def on_join(connection, message)
+        if message.command == :join && message.nick == connection.nick
+          yield
+        end
       end
 
       def create_database(file, container, variable)

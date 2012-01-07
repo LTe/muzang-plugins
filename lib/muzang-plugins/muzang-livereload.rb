@@ -6,8 +6,8 @@ class LiveReload
   end
 
   def call(connection, message)
-    if on_channel?(message)
-      if match?(message, :regexp => /^!reload$/, :position => 0)
+    on_channel(message) do
+      match(message, /^!reload$/) do
         @bot.plugins.each do |plugin, instance|
           Kernel.load("muzang-plugins/muzang-#{plugin.to_s.downcase}.rb")
           instance = plugin.new(@bot)

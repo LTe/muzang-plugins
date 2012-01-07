@@ -12,13 +12,9 @@ class Reddit
   end
 
   def call(connection, message)
-    if on_join?(connection, message)
+    on_join(connection, message) do
       EventMachine::add_periodic_timer(period) do
         http = EventMachine::HttpRequest.new('http://www.reddit.com/r/ruby/.rss').get
-
-        http.errback {
-          # exceptioner
-        }
 
         http.callback {
           rss = RSS::Parser.parse(http.response, false)

@@ -16,7 +16,7 @@ class RubyGems
   end
 
   def call(connection, message)
-    message.message.match(/^watch! (.*?)$/) do |match|
+    match(message, /^watch! (.*?)$/) do |match|
       @current_gem = match[1]
 
       @store.transaction do
@@ -47,7 +47,7 @@ class RubyGems
       end
     end
 
-    if on_join?(connection, message)
+    on_join(connection, message) do
       EventMachine.add_periodic_timer(period) do
         gems = @store.transaction{@store[:gems].values}
         EM::Iterator.new(gems, 1).each do |gem, iter|

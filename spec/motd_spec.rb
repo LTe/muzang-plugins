@@ -11,7 +11,7 @@ describe "Motd" do
   end
 
   it "should send message after join to channel" do
-    @connection.should_receive(:msg).with("#test", "DRUG-bot | Version: #{Muzang::VERSION} | Plugins: *Motd* ")
+    @connection.should_receive(:msg).with("#test", "Muzang | Version: #{Muzang::VERSION} | Plugins: *Motd* ")
     @motd.call(@connection, @message)
   end
 end
