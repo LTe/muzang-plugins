@@ -39,7 +39,7 @@ class PluginsClass
       connnection.msg(message.channel, "Pong: #{message.message}")
 
       match(message, /^bot/) do |match|
-        contributed.msg(message.channel, "Match! #{match[0]}"
+        connnection.msg(message.channel, "Match! #{match[0]}"
       end
     end
   end
