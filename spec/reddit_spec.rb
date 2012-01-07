@@ -31,7 +31,7 @@ describe "Reddit" do
     @reddit.last_update = Time.new(2011, 9, 29, 0, 47, 0)
     EM.run do
       @reddit.call(@connection, @message)
-      eventually(1) { @connection.message_count }
+      eventually(1, :every => 0.1, :total => 20) { @connection.message_count }
     end
   end
 
