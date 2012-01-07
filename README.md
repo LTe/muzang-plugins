@@ -3,7 +3,7 @@ muzang
 
 Official plugins for [muzang](http://github.com/LTe/muzang)
 
-[![BuildStatus](http://travis-ci.org/LTe/muzang.png)](http://github.com/LTe/muzang)
+[![BuildStatus](http://travis-ci.org/LTe/muzang-plugins.png)](http://github.com/LTe/muzang-plugins)
 
 Plugins
 =======
