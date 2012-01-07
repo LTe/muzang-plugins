@@ -30,8 +30,8 @@ describe "RubyGems" do
     EM.run do
       @rubygems.call(@connection, @message)
       eventually(true, :times => 10) do
-        @connection.messages.include? "Dodalem gema acts-as-messageable do obserwowanych" and
-        @connection.messages.include? "Aktualna wersja: acts-as-messageable (0.4.2)"
+        @connection.messages.include? "I added gem acts-as-messageable to watchlist" and
+        @connection.messages.include? "Current version: acts-as-messageable (0.4.2)"
       end
     end
   end
@@ -41,7 +41,7 @@ describe "RubyGems" do
     EM.run do
       @rubygems.call(@connection, @message)
       eventually(true) do
-        @connection.messages.include? "Niepoprawna nazwa gema"
+        @connection.messages.include? "Gem name is incorrect"
       end
     end
   end
@@ -51,7 +51,7 @@ describe "RubyGems" do
     EM.run do
       2.times{ @rubygems.call(@connection, @message) }
       eventually(true) do
-        @connection.messages.include? "Gem acts-as-messageable jest juz obserwowany"
+        @connection.messages.include? "Gem acts-as-messageable is already observed"
       end
     end
   end
@@ -80,7 +80,7 @@ describe "RubyGems" do
       @rubygems.store.transaction{ @rubygems.store[:gems]["acts-as-messageable"][:version] = "0.4.1" }
 
       eventually(true, :every => 0.1, :total => 100) do
-        @connection.messages.include? "Nowa wersja acts-as-messageable (0.4.2)"
+        @connection.messages.include? "New version acts-as-messageable (0.4.2)"
       end
     end
   end

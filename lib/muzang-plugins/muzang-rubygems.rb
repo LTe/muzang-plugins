@@ -34,16 +34,16 @@ class RubyGems
             @store.transaction do
               @store[:gems][@current_gem][:version] = gem["version"]
             end
-            connection.msg(message.channel, "Dodalem gema #{@current_gem} do obserwowanych")
-            connection.msg(message.channel, "Aktualna wersja: #{@current_gem} (#{gem["version"]})")
+            connection.msg(message.channel, "I added gem #{@current_gem} to watchlist")
+            connection.msg(message.channel, "Current version: #{@current_gem} (#{gem["version"]})")
             @new_gem = false
           rescue Exception
-            connection.msg(message.channel, "Niepoprawna nazwa gema")
+            connection.msg(message.channel, "Gem name is incorrect")
             @store.transaction{@store[:gems].delete(@current_gem)}
           end
         }
       else
-        connection.msg(message.channel, "Gem #{@current_gem} jest juz obserwowany")
+        connection.msg(message.channel, "Gem #{@current_gem} is already observed")
       end
     end
 
@@ -60,7 +60,7 @@ class RubyGems
                 @store.transaction do
                   @store[:gems][gem[:name]][:version] = current_gem["version"]
                 end
-                connection.msg(message.channel, "Nowa wersja #{gem[:name]} (#{current_gem["version"]})")
+                connection.msg(message.channel, "New version #{gem[:name]} (#{current_gem["version"]})")
               end
             rescue
             end

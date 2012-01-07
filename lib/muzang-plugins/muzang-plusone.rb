@@ -17,10 +17,10 @@ class PlusOne
         plus_for = plus_for[1]
         plus_for.gsub!(":","")
         if filter(plus_for, message.nick)
-          connection.msg(message.channel, "#{message.nick} pisze w PHP") and return
+          connection.msg(message.channel, "#{message.nick} write in PHP") and return
         end
 
-        connection.msg(message.channel, "#{message.nick} podarowal +1 dla *#{plus_for}*")
+        connection.msg(message.channel, "#{message.nick} gave +1 for *#{plus_for}*")
         @stats[plus_for] ||= 0
         @stats[plus_for]  += 1
         save

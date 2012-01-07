@@ -123,7 +123,7 @@ Watch the gems and notify when new version comes out
 
 ```
 <LTe> watch! rails
-<Muzang> I added gem rails to the observed
+<Muzang> I added gem rails to watchlist
 <Muzang> Current version: 3.1.1
 ...
 <Muzang> New version of rails (4.0.0)

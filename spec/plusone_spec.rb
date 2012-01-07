@@ -11,14 +11,14 @@ describe "PlusOne" do
   end
 
   it "should not add plus one for myself" do
-    @connection.should_receive(:msg).with("#test", "LTe pisze w PHP")
+    @connection.should_receive(:msg).with("#test", "LTe write in PHP")
     @plusone.call(@connection, @message)
     @plusone.stats["LTe"].should == 1
   end
 
   it "should not allow to add plus one for new user" do
     @message.nick = "new_user"
-    @connection.should_receive(:msg).with("#test", "new_user pisze w PHP")
+    @connection.should_receive(:msg).with("#test", "new_user write in PHP")
     @plusone.call(@connection, @message)
     @plusone.stats["LTe"].should == 1
   end
@@ -54,14 +54,14 @@ end
 
 def invalid_plus_one(message)
   @message = OpenStruct.new({ :channel => "#test", :message => message, :nick => "ruby" })
-  @connection.should_not_receive(:msg).with("#test", "ruby podarowal +1 dla *LTe*")
+  @connection.should_not_receive(:msg).with("#test", "ruby gave +1 for *LTe*")
   @plusone.call(@connection, @message)
   @plusone.stats["LTe"].should == 1
 end
 
 def proper_plus_one(message)
   @message = OpenStruct.new({ :channel => "#test", :message => message, :nick => "ruby" })
-  @connection.should_receive(:msg).with("#test", "ruby podarowal +1 dla *LTe*")
+  @connection.should_receive(:msg).with("#test", "ruby gave +1 for *LTe*")
   @plusone.call(@connection, @message)
   @plusone.stats["LTe"].should == 2
 end
