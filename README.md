@@ -5,6 +5,47 @@ Official plugins for [muzang](http://github.com/LTe/muzang)
 
 [![BuildStatus](http://travis-ci.org/LTe/muzang-plugins.png)](http://github.com/LTe/muzang-plugins)
 
+Helpers
+=======
+
+You can use helpers. Just include module.
+
+```ruby
+class PluginClass
+  include Muzang::Plugins::Helpers
+end
+```
+
+After that you can use methods **on_channel**, **on_join**, **match**.
+
+* on_join(connnection, message)
+* on_channel(message)
+* match(message, regexp)
+
+```ruby
+class PluginsClass
+ include Muzang::Plugins::Helpers
+
+  def initialize(bot)
+    @bot = bot
+  end
+
+  def call(connnection, message)
+    on_join(connnection, message) do
+      connnection.msg(message.channel, "Hello guys!")
+    end
+
+    on_channel(message) do
+      connnection.msg(message.channel, "Pong: #{message.message}")
+
+      match(message, /^bot/) do |match|
+        contributed.msg(message.channel, "Match! #{match[0]}"
+      end
+    end
+  end
+```
+
+
 Plugins
 =======
 
