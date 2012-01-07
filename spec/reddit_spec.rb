@@ -28,7 +28,7 @@ describe "Reddit" do
   end
 
   it "should print only one message" do
-    @reddit.last_update = Time.new(2011, 9, 29, 0, 47, 0)
+    @reddit.last_update = (DateTime.parse "Thu, 29 Sep 2011 00:47:00 +0200").to_time
     EM.run do
       @reddit.call(@connection, @message)
       eventually(1, :every => 0.1, :total => 20) { @connection.message_count }
