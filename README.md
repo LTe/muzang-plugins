@@ -1,5 +1,5 @@
-muzang
-======
+muzang-plugins
+==============
 
 Official plugins for [muzang](http://github.com/LTe/muzang)
 
