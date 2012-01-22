@@ -25,7 +25,7 @@ describe "Meme" do
   end
 
   it "should create meme and send message" do
-    @message.message = "meme yuno \"hi0\" \"hi1\""
+    @message.message = "meme y_u_no? \"hi0\" \"hi1\""
     EM.run do
       @meme.call(@connection, @message)
       eventually(1) { @connection.message_count }

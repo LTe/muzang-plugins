@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "em-http-request"
   gem.add_dependency "muzang", "~> 1.0.0"
+  gem.add_dependency "memetron", "~> 0.1.1"
 
   gem.add_development_dependency "em-ventually",  "~> 0.1.2"
   gem.add_development_dependency "rspec",         "~> 2.6.0"
