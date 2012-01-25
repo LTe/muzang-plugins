@@ -5,8 +5,6 @@ require "memetron"
 class Meme
   include Muzang::Plugins::Helpers
 
-
-
   MEMES = {
     dos_equis:    { image_id: 2485,     generator: 74   },
     y_u_no?:      { image_id: 166088,   generator: 2    },
@@ -14,6 +12,7 @@ class Meme
     fry:          { image_id: 84688,    generator: 305  },
     orly:         { image_id: 117049,   generator: 920  },
     all:          { image_id: 1121885,  generator: 6013 }
+    obama:        { image_id: 2154021,  generator: 372781 }
   }
 
   def initialize(bot)
@@ -64,6 +63,9 @@ class Meme
           when :all
             @text0 = meme[1][0]
             @text1 = "all the things!"
+          when :obama
+            @text0 = meme[1][0]
+            @text1 = "not bad"
           else
             @text0 = meme[1][0]
             @text1 = meme[1][1]
