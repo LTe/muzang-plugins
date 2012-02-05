@@ -19,7 +19,7 @@ class Meme
   def initialize(bot)
     @bot      = bot
     @matcher  = Memetron::Matcher.new
-    @soup     = File.open(ENV["HOME"] + "/.muzang/" + "soup").read.split(":")    
+    @soup     = File.open(ENV["HOME"] + "/.muzang/" + "soup").read.split(":") rescue nil
   end
 
   def call(connection, message)
@@ -88,13 +88,14 @@ class Meme
                            :text1 => @text1})
 
     http.callback {
-      puts "callback!"
       meme = JSON.parse(http.response)
       url = "http://version1.api.memegenerator.net#{meme['result']['instanceImageUrl']}"
-      connection.msg("#{@bot.channels.first}", "Meme: #{url}")      
-      soup = Soup::Client.new(@soup.first, @soup.last.chomp)
-      soup.login
-      soup.new_image(url)
+      connection.msg("#{@bot.channels.first}", "Meme: #{url}")
+      if @soup
+        soup = Soup::Client.new(@soup.first, @soup.last.chomp)
+        soup.login
+        soup.new_image(url)
+      end
     }
   end
 end
