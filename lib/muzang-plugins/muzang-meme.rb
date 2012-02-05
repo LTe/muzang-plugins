@@ -1,6 +1,7 @@
 require "em-http-request"
 require "json"
 require "memetron"
+require "soup-client"
 
 class Meme
   include Muzang::Plugins::Helpers
@@ -11,13 +12,14 @@ class Meme
     bear_grylls:  { image_id: 89714,    generator: 92   },
     fry:          { image_id: 84688,    generator: 305  },
     orly:         { image_id: 117049,   generator: 920  },
-    all:          { image_id: 1121885,  generator: 6013 }
+    all:          { image_id: 1121885,  generator: 6013 },
     obama:        { image_id: 2154021,  generator: 372781 }
   }
 
   def initialize(bot)
     @bot      = bot
     @matcher  = Memetron::Matcher.new
+    @soup     = File.open(ENV["HOME"] + "/.muzang/" + "soup").read.split(":")    
   end
 
   def call(connection, message)
@@ -86,9 +88,13 @@ class Meme
                            :text1 => @text1})
 
     http.callback {
+      puts "callback!"
       meme = JSON.parse(http.response)
       url = "http://version1.api.memegenerator.net#{meme['result']['instanceImageUrl']}"
-      connection.msg("#{@bot.channels.first}", "Meme: #{url}")
+      connection.msg("#{@bot.channels.first}", "Meme: #{url}")      
+      soup = Soup::Client.new(@soup.first, @soup.last.chomp)
+      soup.login
+      soup.new_image(url)
     }
   end
 end
