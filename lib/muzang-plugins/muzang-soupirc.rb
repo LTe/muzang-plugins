@@ -3,7 +3,7 @@ require "soup-client"
 class SoupIRC
   include Muzang::Plugins::Helpers
 
-  def initialize(bot, soup=[])
+  def initialize(bot, soup=nil)
     @bot  = bot
     @soup = soup || File.open(ENV["HOME"] + "/.muzang/" + "soup").read.split(":") rescue nil
   end
