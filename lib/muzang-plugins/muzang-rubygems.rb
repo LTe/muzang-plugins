@@ -47,6 +47,12 @@ class RubyGems
       end
     end
 
+    match(message, /^!cojapacze$/) do
+      @store.transaction do
+        connection.msg(message.channel, "#{@store[:gems].keys.join(', ')}")
+      end
+    end
+
     on_join(connection, message) do
       EventMachine.add_periodic_timer(period) do
         gems = @store.transaction{@store[:gems].values}

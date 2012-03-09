@@ -84,4 +84,19 @@ describe "RubyGems" do
       end
     end
   end
+
+  it "should list watched gems" do
+    @message.message = "!cojapacze"
+    @rubygems.store.transaction do
+      @rubygems.store[:gems]["gem1"] = { :name => "gem1" }
+      @rubygems.store[:gems]["gem2"] = { :name => "gem2" }
+    end
+
+    EM.run do
+      @rubygems.call(@connection, @message)
+      eventually(true) do
+        @connection.messages.include? "gem1, gem2"
+      end
+    end
+  end
 end
