@@ -51,7 +51,7 @@ class Meme
             @text0 = "I don't always #{meme[1][0]}"
             @text1 = "but when I do #{meme[1][1]}"
           when :y_u_no?
-            @text0 = meme[1][0] + " Y U NO"
+            @text0 = meme[1][0] + "Y U NO"
             @text1 = meme[1][1]
           when :bear_grylls
             @text0 = meme[1][0]
