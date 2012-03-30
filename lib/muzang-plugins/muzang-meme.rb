@@ -89,7 +89,14 @@ class Meme
 
     http.callback {
       meme = JSON.parse(http.response)
-      url = "http://version1.api.memegenerator.net#{meme['result']['instanceImageUrl']}"
+      instance = meme['result']['instanceImageUrl']
+
+      if instance.include?("images")
+        url = instance
+      else
+        url = "http://iversion1.api.memegenerator.net#{instance}"
+      end
+
       connection.msg("#{@bot.channels.first}", "Meme: #{url}")
       if @soup
         soup = Soup::Client.new(@soup.first, @soup.last.chomp)
