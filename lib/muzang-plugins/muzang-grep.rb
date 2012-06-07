@@ -14,7 +14,7 @@ class Grep
 
   class Message < ActiveRecord::Base
     def self.like(channel, term)
-      find(:all, :conditions => ['channel LIKE ? AND content MATCH ?' , channel, term], :order => 'created_at DESC')
+      find(:all, :conditions => ['channel LIKE ? AND content MATCH ?' , channel, term], :order => 'created_at DESC', :limit => 20)
     end
 
     def to_text
