@@ -1,6 +1,6 @@
 require 'sqlite3'
 require 'active_record'
-require 'pastie-api'
+require 'muzang-plugins/muzang-grep/wrttn_in'
 
 class Grep
   include Muzang::Plugins::Helpers
@@ -18,7 +18,7 @@ class Grep
     end
 
     def to_text
-      ["## #{user} @ #{created_at}:", content, ''].join("\n")
+      ["### #{user} @ #{created_at}:", "> #{content}", ''].join("\n")
     end
 
     class Migration < ActiveRecord::Migration
@@ -97,6 +97,7 @@ class Grep
   def save_results(term, results)
     content = ["Searched for '#{term}', found #{results.size} matches", '']
     content += results.map(&:to_text)
-    Pastie.create(content.join("\n"), false).link
+    content = content.join("\n")
+    WrttnIn.create(content).public_url
   end
 end
