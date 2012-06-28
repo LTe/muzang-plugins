@@ -15,8 +15,9 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Muzang::Plugins::VERSION
 
-  gem.add_dependency "em-http-request"
-  gem.add_dependency "muzang", "~> 1.0"
+  gem.add_dependency "em-http-request", "0.3.0"
+  gem.add_dependency "eventmachine", "~> 1.0.0.rc.2"
+  gem.add_dependency "muzang", "~> 1.1"
   gem.add_dependency "memetron", "~> 0.1.1"
   gem.add_dependency "soup-client"
   gem.add_dependency "sqlite3"
