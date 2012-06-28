@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["piotr.nielacny@gmail.com"]
   gem.description   = %q{Plugins for Muzang IRC bot}
   gem.summary       = %q{Basic plugins for Muzang IRC bot}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/LTe/muzang-plugins"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
