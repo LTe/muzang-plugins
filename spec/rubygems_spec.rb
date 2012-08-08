@@ -36,6 +36,20 @@ describe "RubyGems" do
     end
   end
 
+  it "should remove gem from watching list" do
+    @message.message = "watch! acts-as-messageable"
+    EM.run do
+      @rubygems.call(@connection, @message)
+      @message.message = "unwatch! acts-as-messageable"
+      @rubygems.call(@connection, @message)
+      
+      eventually(true, :times => 10) do
+        puts @connection.messages
+        @connection.messages.include? "I removed gem acts-as-messageable from watchlist"
+      end
+    end
+  end
+
   it "should raise error" do
     @message.message = "watch! acts-as-messageable2"
     EM.run do

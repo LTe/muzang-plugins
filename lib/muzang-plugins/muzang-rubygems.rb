@@ -47,6 +47,14 @@ class RubyGems
       end
     end
 
+    match(message, /^unwatch! (.*?)$/) do |match|
+      @store.transaction do
+        if @store[:gems].delete(match[1])
+          connection.msg(message.channel, "I removed gem #{match[1]} from watchlist")
+        end
+      end
+    end
+
     match(message, /^!cojapacze$/) do
       @store.transaction do
         connection.msg(message.channel, "#{@store[:gems].keys.join(', ')}")
