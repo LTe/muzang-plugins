@@ -16,7 +16,7 @@ class RubyGems
   end
 
   def call(connection, message)
-    match(message, /^watch! (.*?)$/) do |match|
+    match(message, /^!watch (.*?)$/) do |match|
       @current_gem = match[1]
 
       @store.transaction do
@@ -47,7 +47,7 @@ class RubyGems
       end
     end
 
-    match(message, /^unwatch! (.*?)$/) do |match|
+    match(message, /^!unwatch (.*?)$/) do |match|
       @store.transaction do
         if @store[:gems].delete(match[1])
           connection.msg(message.channel, "I removed gem #{match[1]} from watchlist")

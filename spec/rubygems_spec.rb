@@ -25,8 +25,8 @@ describe "RubyGems" do
     FileUtils.rm("#{ENV["HOME"]}/.muzang/muzang.rubygems")
   end
 
-  it "should add gem to watching list" do
-    @message.message = "watch! acts-as-messageable"
+  it "should add gem to watching list with watch! command" do
+    @message.message = "!watch acts-as-messageable"
     EM.run do
       @rubygems.call(@connection, @message)
       eventually(true, :times => 10) do
@@ -37,10 +37,10 @@ describe "RubyGems" do
   end
 
   it "should remove gem from watching list" do
-    @message.message = "watch! acts-as-messageable"
+    @message.message = "!watch acts-as-messageable"
     EM.run do
       @rubygems.call(@connection, @message)
-      @message.message = "unwatch! acts-as-messageable"
+      @message.message = "!unwatch acts-as-messageable"
       @rubygems.call(@connection, @message)
       
       eventually(true, :times => 10) do
@@ -51,7 +51,7 @@ describe "RubyGems" do
   end
 
   it "should raise error" do
-    @message.message = "watch! acts-as-messageable2"
+    @message.message = "!watch acts-as-messageable2"
     EM.run do
       @rubygems.call(@connection, @message)
       eventually(true) do
@@ -61,7 +61,7 @@ describe "RubyGems" do
   end
 
   it "should not add gem twice to store" do
-    @message.message = "watch! acts-as-messageable"
+    @message.message = "!watch acts-as-messageable"
     EM.run do
       2.times{ @rubygems.call(@connection, @message) }
       eventually(true) do
@@ -71,7 +71,7 @@ describe "RubyGems" do
   end
 
   it "should remove gem from storage" do
-    @message.message = "watch! acts-as-messageable2"
+    @message.message = "!watch acts-as-messageable2"
     EM.run do
       @rubygems.call(@connection, @message)
       eventually(true) do
@@ -88,7 +88,7 @@ describe "RubyGems" do
 
     EM.run do
       @rubygems.call(@connection, @message)
-      @message.message = "watch! acts-as-messageable"
+      @message.message = "!watch acts-as-messageable"
       @rubygems.call(@connection, @message)
 
       @rubygems.store.transaction{ @rubygems.store[:gems]["acts-as-messageable"][:version] = "0.4.1" }
