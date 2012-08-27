@@ -2,89 +2,93 @@ require "em-http-request"
 require "json"
 require "pstore"
 
-class RubyGems
-  include Muzang::Plugins::Helpers
+module Muzang
+  module Plugins
+    class RubyGems
+      include Muzang::Plugins::Helpers
 
-  attr_accessor :last_gem, :store
+      attr_accessor :last_gem, :store
 
-  def initialize(bot)
-    @bot = bot
-    @store = PStore.new("#{ENV["HOME"]}/.muzang/muzang.rubygems")
-    @store.transaction do
-      @store[:gems] ||= {}
-    end
-  end
-
-  def call(connection, message)
-    match(message, /^!watch (.*?)$/) do |match|
-      @current_gem = match[1]
-
-      @store.transaction do
-        unless @store[:gems][@current_gem]
-          @store[:gems][match[1]] = {:name => @current_gem}
-          @new_gem = true
+      def initialize(bot)
+        @bot = bot
+        @store = PStore.new("#{ENV["HOME"]}/.muzang/muzang.rubygems")
+        @store.transaction do
+          @store[:gems] ||= {}
         end
       end
 
-      if @new_gem
-        http = EventMachine::HttpRequest.new("http://rubygems.org/api/v1/gems/#{@current_gem}.json").get
-        http.callback {
-          begin
-            gem = JSON.parse(http.response)
-            @store.transaction do
-              @store[:gems][@current_gem][:version] = gem["version"]
+      def call(connection, message)
+        match(message, /^!watch (.*?)$/) do |match|
+          @current_gem = match[1]
+
+          @store.transaction do
+            unless @store[:gems][@current_gem]
+              @store[:gems][match[1]] = {:name => @current_gem}
+              @new_gem = true
             end
-            connection.msg(message.channel, "I added gem #{@current_gem} to watchlist")
-            connection.msg(message.channel, "Current version: #{@current_gem} (#{gem["version"]})")
-            @new_gem = false
-          rescue Exception
-            connection.msg(message.channel, "Gem name is incorrect")
-            @store.transaction{@store[:gems].delete(@current_gem)}
           end
-        }
-      else
-        connection.msg(message.channel, "Gem #{@current_gem} is already observed")
-      end
-    end
 
-    match(message, /^!unwatch (.*?)$/) do |match|
-      @store.transaction do
-        if @store[:gems].delete(match[1])
-          connection.msg(message.channel, "I removed gem #{match[1]} from watchlist")
-        end
-      end
-    end
-
-    match(message, /^!cojapacze$/) do
-      @store.transaction do
-        connection.msg(message.channel, "#{@store[:gems].keys.join(', ')}")
-      end
-    end
-
-    on_join(connection, message) do
-      EventMachine.add_periodic_timer(period) do
-        gems = @store.transaction{@store[:gems].values}
-        EM::Iterator.new(gems, 1).each do |gem, iter|
-          http = EventMachine::HttpRequest.new("http://rubygems.org/api/v1/gems/#{gem[:name]}.json").get
-          http.callback {
-            iter.next
-            begin
-              current_gem = JSON.parse(http.response)
-              if Gem::Version.new(gem[:version]) < Gem::Version.new(current_gem["version"])
+          if @new_gem
+            http = EventMachine::HttpRequest.new("http://rubygems.org/api/v1/gems/#{@current_gem}.json").get
+            http.callback {
+              begin
+                gem = JSON.parse(http.response)
                 @store.transaction do
-                  @store[:gems][gem[:name]][:version] = current_gem["version"]
+                  @store[:gems][@current_gem][:version] = gem["version"]
                 end
-                connection.msg(message.channel, "New version #{gem[:name]} (#{current_gem["version"]})")
+                connection.msg(message.channel, "I added gem #{@current_gem} to watchlist")
+                connection.msg(message.channel, "Current version: #{@current_gem} (#{gem["version"]})")
+                @new_gem = false
+              rescue Exception
+                connection.msg(message.channel, "Gem name is incorrect")
+                @store.transaction{@store[:gems].delete(@current_gem)}
               end
-            rescue
+            }
+          else
+            connection.msg(message.channel, "Gem #{@current_gem} is already observed")
+          end
+        end
+
+        match(message, /^!unwatch (.*?)$/) do |match|
+          @store.transaction do
+            if @store[:gems].delete(match[1])
+              connection.msg(message.channel, "I removed gem #{match[1]} from watchlist")
             end
-          }
+          end
+        end
+
+        match(message, /^!cojapacze$/) do
+          @store.transaction do
+            connection.msg(message.channel, "#{@store[:gems].keys.join(', ')}")
+          end
+        end
+
+        on_join(connection, message) do
+          EventMachine.add_periodic_timer(period) do
+            gems = @store.transaction{@store[:gems].values}
+            EM::Iterator.new(gems, 1).each do |gem, iter|
+              http = EventMachine::HttpRequest.new("http://rubygems.org/api/v1/gems/#{gem[:name]}.json").get
+              http.callback {
+                iter.next
+                begin
+                  current_gem = JSON.parse(http.response)
+                  if Gem::Version.new(gem[:version]) < Gem::Version.new(current_gem["version"])
+                    @store.transaction do
+                      @store[:gems][gem[:name]][:version] = current_gem["version"]
+                    end
+                    connection.msg(message.channel, "New version #{gem[:name]} (#{current_gem["version"]})")
+                  end
+                rescue
+                end
+              }
+            end
+          end
         end
       end
-    end
-  end
 
-  def period
-    30
+      def period
+        30
+      end
+    end
   end
 end
