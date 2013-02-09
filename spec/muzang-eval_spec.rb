@@ -41,5 +41,22 @@ module Muzang::Plugins
         eventually(true) { @connection.messages.include? "Error: Exception" }
       end
     end
+
+    it "should keep state" do
+      @message.message = '% @state = {:true => true}'
+      EM.run do
+        @message_state = @message.dup
+        @message_state.message = '% "super #{@state}"'
+        @eval.call(@connection, @message)
+        EM.add_timer(0.5) do
+          @eval.call(@connection, @message_state)
+        end
+
+        eventually(true) do
+          @connection.messages.include?("{:true=>true}") &&
+          @connection.messages.include?("super {:true=>true}")
+        end
+      end
+    end
   end
 end

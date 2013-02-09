@@ -1,20 +1,18 @@
 module Muzang
   module Plugins
-    module Safe; end
-    class << Safe
+    class Safe
        def safe(code, sandbox=nil)
          error = nil
 
          begin
            $-w = nil
-           sandbox ||= Object.new.taint
-           yield(sandbox) if block_given?
+           @sandbox ||= Object.new
+           yield(@sandbox) if block_given?
 
-           $SAFE = 5
-           value = eval(code, sandbox.send(:binding))
-           result = Marshal.load(Marshal.dump(value))
+           $SAFE = 3
+           result = eval(code, @sandbox.send(:binding))
          rescue Exception => error
-           error = Marshal.load(Marshal.dump(error))
+           error = error
          end
 
          return result, error
@@ -46,7 +44,8 @@ module Muzang
 
       def safe(*args, &block)
         unless args.first =~ /EM|EventMachine/
-          Safe::safe(*args, &block)
+          @safe ||= Safe.new
+          @safe.safe(*args, &block)
         end
       end
     end
